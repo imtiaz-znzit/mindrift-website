@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F766E"/>
+      <stop offset="50%" stop-color="#0D9488"/>
+      <stop offset="100%" stop-color="#14B8A6"/>
+    </linearGradient>
+    <linearGradient id="suit2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+  <circle cx="80" cy="80" r="80" fill="url(#bg2)"/>
+  <circle cx="80" cy="80" r="76" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  <!-- Hair back -->
+  <path d="M48 60 C42 85 45 110 50 120 C56 120 58 100 58 85 Z" fill="#1C1917"/>
+  <path d="M112 60 C118 85 115 110 110 120 C104 120 102 100 102 85 Z" fill="#1C1917"/>
+  <!-- Blazer / Clothes -->
+  <path d="M28 160 C32 116 52 104 80 104 C108 104 128 116 132 160 Z" fill="url(#suit2)"/>
+  <path d="M66 104 L80 135 L94 104 Z" fill="#0D9488"/>
+  <!-- Neck -->
+  <rect x="72" y="82" width="16" height="24" rx="4" fill="#FDE047"/>
+  <!-- Head -->
+  <circle cx="80" cy="64" r="26" fill="#FDE047"/>
+  <!-- Hair top -->
+  <path d="M50 56 C50 32 64 26 80 26 C96 26 110 32 110 56 C105 48 95 44 80 44 C65 44 55 48 50 56 Z" fill="#1C1917"/>
+  <path d="M50 50 C46 68 48 85 52 95 C55 85 55 70 56 60 Z" fill="#1C1917"/>
+  <!-- Eyes -->
+  <circle cx="70" cy="62" r="3" fill="#1E293B"/>
+  <circle cx="90" cy="62" r="3" fill="#1E293B"/>
+  <!-- Smile -->
+  <path d="M72 75 Q80 82 88 75" fill="none" stroke="#CA8A04" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Earring -->
+  <circle cx="53" cy="68" r="3" fill="#FEF08A"/>
+  <circle cx="107" cy="68" r="3" fill="#FEF08A"/>
+</svg>
+

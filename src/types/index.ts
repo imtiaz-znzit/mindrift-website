@@ -107,6 +107,20 @@ export interface InsightArticle {
   relatedSlugs: string[];
 }
 
+export interface ClientReview {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  image: string;
+  rating: number;
+  comment: string;
+  recommendation: string;
+  badge?: string;
+  project?: string;
+  verified?: boolean;
+}
+
 export interface SiteConfig {
   name: string;
   tagline: string;

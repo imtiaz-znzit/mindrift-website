@@ -8,8 +8,10 @@ import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { HowWeWork } from "@/components/sections/how-we-work";
 import { TechStack } from "@/components/sections/tech-stack";
 import { IndustriesGrid } from "@/components/sections/industries-grid";
+import { ClientReviews } from "@/components/sections/client-reviews";
 import { InsightsPreview } from "@/components/sections/insights-preview";
 import { CtaBanner } from "@/components/sections/cta-banner";
+
 export default function HomePage() {
   return (
     <div className="flex flex-col">
@@ -23,6 +25,7 @@ export default function HomePage() {
       <HowWeWork />
       <TechStack />
       <IndustriesGrid />
+      <ClientReviews />
       <InsightsPreview />
       <CtaBanner />
     </div>

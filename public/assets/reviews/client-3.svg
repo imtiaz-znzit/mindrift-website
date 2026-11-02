@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4C1D95"/>
+      <stop offset="50%" stop-color="#6D28D9"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="suit3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181B"/>
+      <stop offset="100%" stop-color="#27272A"/>
+    </linearGradient>
+  </defs>
+  <circle cx="80" cy="80" r="80" fill="url(#bg3)"/>
+  <circle cx="80" cy="80" r="76" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  <!-- Clothes -->
+  <path d="M26 160 C30 114 52 102 80 102 C108 102 130 114 134 160 Z" fill="url(#suit3)"/>
+  <path d="M68 103 L80 125 L92 103 Z" fill="#7C3AED"/>
+  <!-- Neck -->
+  <rect x="71" y="80" width="18" height="26" rx="4" fill="#FBBF24"/>
+  <!-- Head -->
+  <circle cx="80" cy="62" r="28" fill="#FCD34D"/>
+  <!-- Modern Hair / Beard -->
+  <path d="M52 50 C54 32 66 26 80 26 C94 26 106 32 108 50 C100 42 90 38 80 38 C70 38 60 42 52 50 Z" fill="#451A03"/>
+  <!-- Trimmed Beard -->
+  <path d="M62 68 C62 86 70 94 80 94 C90 94 98 86 98 68 C96 74 90 84 80 84 C70 84 64 74 62 68 Z" fill="#451A03"/>
+  <!-- Eyes -->
+  <circle cx="70" cy="58" r="3" fill="#18181B"/>
+  <circle cx="90" cy="58" r="3" fill="#18181B"/>
+  <!-- Smile -->
+  <path d="M74 74 Q80 78 86 74" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+</svg>
+
