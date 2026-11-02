@@ -31,6 +31,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const prevPathnameRef = useRef(pathname);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -268,3 +269,4 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
     document.body
   );
 }
+

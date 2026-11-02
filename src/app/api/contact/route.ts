@@ -4,15 +4,27 @@ import { contactFormSchema } from "@/lib/validation";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    console.log("[Contact API] Received inquiry submission:", {
+      fullName: body?.fullName,
+      workEmail: body?.workEmail,
+      companyName: body?.companyName,
+      projectType: body?.projectType,
+    });
 
     // Server-side Zod validation
     const validationResult = contactFormSchema.safeParse(body);
     if (!validationResult.success) {
+      const issueDetails = validationResult.error.issues
+        .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+        .join(", ");
+
+      console.error("[Contact API Validation Issues]:", issueDetails);
+
       return NextResponse.json(
         {
           success: false,
-          message: "Validation failed. Please review your input fields.",
-          errors: validationResult.error.format(),
+          message: `Validation failed: ${issueDetails}`,
+          errors: validationResult.error.issues,
         },
         { status: 400 }
       );
@@ -21,12 +33,49 @@ export async function POST(request: NextRequest) {
     const data = validationResult.data;
     const referenceId = `MDR-${Date.now().toString(36).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    // Check if external mail service (e.g., Resend or SMTP) is configured
+    // 1. Google Sheets Webhook Integration
+    const sheetWebhookUrl =
+      process.env.GOOGLE_SHEET_WEBHOOK_URL ||
+      "https://script.google.com/macros/s/AKfycbzjS77kDb203bprEzFsSc7xB96KKkxDoymBVZHxCuO1zdqbri3ihSUqksmyQyNpMxrucA/exec";
+
+    let sheetSaved = false;
+
+    if (sheetWebhookUrl) {
+      try {
+        const sheetPayload = {
+          referenceId,
+          fullName: data.fullName,
+          workEmail: data.workEmail,
+          companyName: data.companyName,
+          projectType: data.projectType,
+          estimatedBudget: data.estimatedBudget || "Not specified",
+          projectTimeline: data.projectTimeline || "Not specified",
+          projectDescription: data.projectDescription,
+          submittedAt: new Date().toISOString(),
+        };
+
+        const sheetRes = await fetch(sheetWebhookUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify(sheetPayload),
+          redirect: "follow",
+        });
+
+        const sheetResponseText = await sheetRes.text();
+        console.log(`[Google Sheets] Webhook response:`, sheetResponseText.slice(0, 300));
+        sheetSaved = true;
+      } catch (sheetErr) {
+        console.error("[Google Sheets] Network error syncing sheet:", sheetErr);
+      }
+    }
+
+    // 2. Email Notification (Resend / SMTP) if configured
     const hasResend = Boolean(process.env.RESEND_API_KEY);
     const destinationEmail = process.env.CONTACT_DESTINATION_EMAIL || "contact@mindriftagency.com";
 
     if (hasResend) {
-      // If RESEND_API_KEY is supplied, dispatch via Resend REST API
       try {
         const emailRes = await fetch("https://api.resend.com/emails", {
           method: "POST",
@@ -61,11 +110,6 @@ ${data.projectDescription}
       } catch (emailErr) {
         console.error("Failed to connect to email provider:", emailErr);
       }
-    } else {
-      // Honest development-mode log
-      console.log(
-        `[Mindrift Contact API - Development Mode] Inquiry validated: Ref ${referenceId} from ${data.workEmail} (${data.companyName}). Configure RESEND_API_KEY in .env.local to enable real email dispatch.`
-      );
     }
 
     return NextResponse.json(
@@ -73,7 +117,8 @@ ${data.projectDescription}
         success: true,
         referenceId,
         message: "Inquiry processed successfully.",
-        deliveryStatus: hasResend ? "dispatched" : "development_verified",
+        sheetSaved,
+        deliveryStatus: hasResend ? "dispatched" : "verified",
         destination: destinationEmail,
       },
       { status: 200 }

@@ -71,14 +71,25 @@ export function ContactForm() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || "Failed to process inquiry. Please try again.");
+        if (Array.isArray(data.errors)) {
+          const serverFieldErrors: Record<string, string> = {};
+          data.errors.forEach((issue: { path?: string[]; message?: string }) => {
+            if (issue.path && issue.path[0]) {
+              serverFieldErrors[issue.path[0]] = issue.message || "Invalid input";
+            }
+          });
+          setErrors(serverFieldErrors);
+        }
+        throw new Error(data.message || "Failed to process inquiry. Please review your input fields.");
       }
 
       setSubmissionSuccess(true);
       setReferenceId(data.referenceId || "MDR-" + Math.floor(100000 + Math.random() * 900000));
     } catch (err: unknown) {
       setSubmissionSuccess(false);
-      setApiErrorMessage(err instanceof Error ? err.message : "An unexpected error occurred. Please try again or email us directly.");
+      setApiErrorMessage(
+        err instanceof Error ? err.message : "An unexpected error occurred. Please try again or email us directly."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -227,7 +238,7 @@ export function ContactForm() {
           <select
             id="estimatedBudget"
             name="estimatedBudget"
-            value={formData.estimatedBudget}
+            value={formData.estimatedBudget || ""}
             onChange={handleChange}
             className="w-full px-4 py-2.5 text-sm rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2]"
           >
@@ -246,7 +257,7 @@ export function ContactForm() {
           <select
             id="projectTimeline"
             name="projectTimeline"
-            value={formData.projectTimeline}
+            value={formData.projectTimeline || ""}
             onChange={handleChange}
             className="w-full px-4 py-2.5 text-sm rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2]"
           >
@@ -307,7 +318,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm text-white bg-[#000B49] hover:bg-[#1877F2] dark:bg-[#1877F2] dark:hover:bg-blue-600 disabled:opacity-50 transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-[#1877F2]"
+        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm text-white bg-[#000B49] hover:bg-[#1877F2] dark:bg-[#1877F2] dark:hover:bg-blue-600 disabled:opacity-50 transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-[#1877F2] cursor-pointer"
       >
         {isSubmitting ? (
           <>
