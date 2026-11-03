@@ -5,7 +5,6 @@ import { AOSProvider } from "@/components/providers/aos-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ParticleField } from "@/components/ui/particle-field";
-import { Preloader } from "@/components/ui/preloader";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { siteConfig } from "@/data/site-config";
 import "./globals.css";
@@ -95,9 +94,6 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <AOSProvider>
-            {/* Fancy Enterprise Preloader */}
-            <Preloader />
-
             {/* Full-Site Living Dynamic Particle Field */}
             <ParticleField
               fixed={true}
